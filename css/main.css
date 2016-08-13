@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "icons";
+  src:url("fonts/icons.eot");
+  src:url("fonts/icons.eot?#iefix") format("embedded-opentype"),
+    url("fonts/icons.woff") format("woff"),
+    url("fonts/icons.ttf") format("truetype"),
+    url("fonts/icons.svg#icons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "icons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  font-size: 25px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-github:before {
+  content: "g";
+}
+.icon-twitter:before {
+  content: "t";
+}
+.icon-printer:before {
+  content: "p";
+}
+.icon-blog:before {
+  content: "b";
+}
+
+.purple1,
+h1,
+.icon-printer:hover,
+.icon-blog:hover {
+  color: rgb(11, 125, 228);
+}
+.purple2,
+.row,
+.nav-subrow span,
+.icon-twitter:hover,
+.icon-github:hover {
+  color: rgb(11, 125, 228);
+}
+a {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+a,
+a:hover {
+  color: rgb(11, 125, 228);
+}
+h1 {
+  font-weight: bold;
+  font-size: 2em;
+  padding: 20px 0px 3px 0px;
+}
+h1, h2, .text-center {text-align: center;}
+h1, h3, hr {margin: 0;}
+.nav-subrow, big{color:darkslategray;}
+b {color: slategray;}
+.social-btns {padding: 0;}
+.img-li {display:inline; list-style-type:none; margin:0px 6px;}
+.btn-link {display:inline-block; color: #DFDFDF; width:25px; height:25px;}
+.navbar-fixed-top,footer  {background-color: #000000;}
+.text-right {text-align:right;}
+.bottom {padding-bottom:40px;}
+a:hover {text-decoration:none !important;}
+.bodycontent {padding: 130px 5px 10px 5px;}
+.row {margin:0;}
+footer {padding: 10px;}
+@media print {
+  .printme {display:block !important;}
+  .navbar-fixed-top {position:relative !important;}
+  .social-btns {display:none;}
+  .nav-subrow {margin-top:-35px;}
+  small {font-size:8px !important;}
+  hr {display:none;}
+  body { padding-top: 0px; margin-top: -10px;
+    font-weight: normal !important;
+    font-size:12px !important;}
+  .bodycontent {padding: 0px;}
+  .col-sm-4, .col-xs-6 {width:33.3% !important;}
+  h3,h2{font-weight: bold !important;
+    padding:5px 0px 5px 0px!important; margin:0px !important;}
+  h3:before, h3:after {content: "----";}
+  h2, h3, h4, h5 {font-size:12px !important;}
+  a:after, a:link:after, a:visited:after {
+    content: "";
+  }
+}

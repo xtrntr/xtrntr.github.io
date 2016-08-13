@@ -1,0 +1,2 @@
+# Visualization of space saved using Huffman Encoding
+This was made using d3js, further updates should include a comparison of different encoding schemes and their efficacy in compressing certain types of data. Transitions are made slow at the start to give the viewer time to understand how blocks of 8 bits are compressed into smaller equivalents, and sped up later to get to the end point where they can compare the compressed size with the original container.
