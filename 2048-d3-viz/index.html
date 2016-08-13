@@ -4,10 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <title>Visualization of an AI solver</title>
   </head>
 
   <body>
     <div id="app"></div>
     <script src="js/cljs_d3_min.js" type="text/javascript"></script> 
+
+    <main>
+      <div id="text">
+        <p> 
+          This was born from a discussion i had with a fellow Recurse Center(RC) programmer on how best to design the AI solver for the 2048 game. We were arguing about space vs speed in implementing a memoization table - i was adamant that memoization (for both game state and depth of the current tree) would be very useful due to much redundancy at the cost of a great deal of space, while she was adamant that there would be a lot of overlapping calculations that would speed up the computation of a single move. Later on, we found that both of us were making valid points - the correct term would be a 
+          <a href="https://en.wikipedia.org/wiki/Transposition_table"><i>transposition table</i></a>. Nevertheless, we wasted a lot of time drawing out game trees on a whiteboard as we took turns to defend our positions, which was admittedly hard given the exponential size of the game tree in 2048 as the depth increases, even for a 2x2 version that we adopted for ease.
+        </p>
+
+        <p>
+          Another motivation was that a year ago before coming to RC, i was mystified by how the AI solver works. And now that i did, i just wanted to show that it was a simple search problem where we select the moves that give the highest score. The hard part was coming up with the heuristics.
+        </p>
+
+        <h2>The algorithm</h2>
+        <p>Expectiminimax is a variant of the minimax algorithm.</p>
+      </div>
+    </main>
   </body>
 </html>
