@@ -9,21 +9,42 @@
 
   <body>
     <div id="app"></div>
-    <script src="js/cljs_d3_min.js" type="text/javascript"></script> 
+    <script src="js/cljs_d3_min.js" type="text/javascript"></script>
 
     <main>
       <div id="text">
-        <p> 
-          This was born from a discussion i had with a fellow Recurse Center(RC) programmer on how best to design the AI solver for the 2048 game. We were arguing about space vs speed in implementing a memoization table - i was adamant that memoization (for both game state and depth of the current tree) would be very useful due to much redundancy at the cost of a great deal of space, while she was adamant that there would be a lot of overlapping calculations that would speed up the computation of a single move. Later on, we found that both of us were making valid points - the correct term would be a 
+        <p>
+          This was born from a discussion i had with a fellow Recurse Center(RC) programmer on how best to design the AI solver for the 2048 game. We were arguing about space vs speed in implementing a memoization table - i was adamant that memoization (for both game state and depth of the current tree) would be very useful due to much redundancy at the cost of a great deal of space, while she was adamant that there would be a lot of overlapping calculations that would speed up the computation of a single move. Later on, we found that both of us were making valid points - the correct term would be a
           <a href="https://en.wikipedia.org/wiki/Transposition_table"><i>transposition table</i></a>. Nevertheless, we wasted a lot of time drawing out game trees on a whiteboard as we took turns to defend our positions, which was admittedly hard given the exponential size of the game tree in 2048 as the depth increases, even for a 2x2 version that we adopted for ease.
         </p>
 
         <p>
-          Another motivation was that a year ago before coming to RC, i was mystified by how the AI solver works. And now that i did, i just wanted to show that it was a simple search problem where we select the moves that give the highest score. The hard part was coming up with the heuristics.
+          Another motivation was that a year ago before coming to RC, i was mystified by how the AI solver works. And now that i did, i just wanted to show that it was a simple search problem where we search the game-tree until we reach the max-depth, then propagate the scores upward and select the moves that give the highest score. The hard part was coming up with the heuristics.
         </p>
 
         <h2>The algorithm</h2>
-        <p>Expectiminimax is a variant of the minimax algorithm.</p>
+        <p>Expectiminimax is a variant of the minimax algorithm. Minimax is an algorithm where the game state is searched for all possible moves by the AI, which are termed MAX nodes, then branching off from each of these states for all possible moves by the opponent/enemy AI, which are termed MIN nodes. (nodes are really just game-states.) Since the game tree grows exponentially in size as the depth increases, there is usually a cut-off depth where the AI stops and grades the game-states on chosen heuristics. These scores are then propagated upwards through the game tree, choosing the highest/lowest score in the branch depending on whether the current depth correlates to a MAX or a MIN node.</p>
+
+        <p>However, Minimax assumes an adversarial opponent - in this case, the tiles are spawned randomly instead of in the worst possible area for the player/AI. Expectiminimax is a better solution as it allows for games with an element of chance, with CHANCE nodes. Here we use a variant of expectiminimax with MAX and CHANCE nodes only since there is no adversarial opponent, where MAX nodes are game-states generated from valid left/right/up/down moves and CHANCE nodes follow each of these MAX nodes immediately with each possible 2/4 tile generated in an empty space. When propagating upwards, CHANCE nodes are summed up after multiplying each node by the probability of that game-state occuring: 0.9 or 0.1 * 1/n * scoreGrid(chance_node) where n is the number of possibilities.</p>
+
+        <h2>Scoring</h2>
+        <p>In developing a 2048 AI, the biggest concern was to get the highest possible tile number (rather than optimizing for score). Out of the many heuristics that have been used for 2048, the most intuitive one (for someone familiar with the game) would be monotonicity, where you score the grid by multiplying the tiles in 4 possible ways:
+            <ul>
+                <li>(tile-0 tile-1 .. tile-14 tile-15)</li>
+                <li>(tile-0 tile-4 .. tile-7 tile-3)</li>
+                <li>(tile-15 tile-14 .. tile-1 tile-0)</li>
+                <li>(tile-15 tile-11 .. tile-8 tile-12)</li>
+            </ul>
+            by a geometric sequence with a ratio of less than 1. The reason this works reasonably well is that a good strategy is to keep your biggest tiles in the corner and the scoring supports that. Other heuristics can be found through StackOverflow/StackExchange, and i won't go into them here.</p>
+
+        <h2>Todo</h2>
+        <p>
+            <ul>
+                <li>Exponential time-out scaling. We keep it slow in the start, then speed it up as we go through the game states</li>
+                <li>Additional d3 transitions to show the difference between propagating MAX and CHANCE nodes</li>
+                <li>As the number of potential game-states grow larger (with large number of empty tiles), the nodes overlap with each other. The visualization could be improved</li>
+                <li>Stop the code from running when page is not active</li>
+        </p>
       </div>
     </main>
   </body>
