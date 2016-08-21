@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <title>Visualization of an AI solver</title>
+    </head>
+
+    <body>
+        <div id="app"></div>
+        <script src="js/cljs_d3_min.js" type="text/javascript"></script>
+
+        <main>
+            <div id="text">
+                <h1>Zero to Sixty</h1>
+
+                <p>I don’t find much use in maintaining a blog, but i like looking back on my programming history.</p>
+
+                <h2>2000s:</h2>
+                <p>Made some HTML pages for my Neopets page.</p>
+
+                <h2>2009:</h2>
+                <p>First introduction to programming with C. The involved exams required us to write code with no syntax errors. I acquire a distaste for programming.</p>
+
+                <h2>2012:</h2>
+                <p>First major project with LabVIEW. I don’t really remember much, other than graphical programming is kind of awkward, but building a system piece by piece was kind of satisfying.</p>
+
+                <h2>2012-2014:</h2>
+                <p>Undergrad. UML “programming”, and a final year project on neural networks applied to image processing in MATLAB. A terrible failure as far as the project is concerned, but i started to see programming as a means of understanding unknown domains. Things became less abstract after i had to code them. I also made some halfhearted attempts to learn emacs and Common Lisp after reading PG’s essays, which would come in handy during my first job.</p>
+
+                <h2>2014-2016:</h2>
+                <p>It was only on my first job that i started to learn about programming. I was thrown into the deep end as the sole developer in charge of a failed project that had been going on for years. It was software to control a high speed gantry robot, originally written in VB.NET by a bunch of industrial automation experts, but eventually desecrated by a revolving door of programmers at my company. Documentation was nonexistent, the software build was riddled with warnings that my seniors told me to ignore, there was no tests in place, the idea of version control was thumbdrives and copies of the entire project directory named by date.</p>
+
+                <p>I learnt how to dive into a legacy codebase (100k LOC). I started printing snippets of code out to read and write notes on, and when that become too tedious (due to VB’s verbose syntax), i started making the code mine in small, manageable steps. I looked for unused functions and classes and removed them, edited function and variable names to be clearer without changing functionality, kept track of global variables in the code to remove duplicates and redundant ones, wrote my own documentation to keep track of the program execution. These baby steps helped me to internalize the program structure.</p>
+
+                <p>I learnt software tooling. [1] In particular, the importance of git after spending a full day poring over the code to find out what the latest change i made had caused a bug; and introduced and taught git to my colleagues. [2] After enough debugging sessions where the uncertainty about whether the build errors and warnings were causing the bug, i buckled down on fixing the Visual Studio build options and error messages. [3]</p>
+
+                <p>I learnt caution and to take error handling seriously. Since the only way i could work on the program was at the computer attached to the robot, it meant that failure in the software could have physical consequences - it was quite the rude shock to see the gantry crash. In the process, i found some interesting bugs [4][5]</p>
+
+                <p>I learnt how to program. Once i had a good grasp of the architecture, i started reworking the program architecture. I implemented a finite state machine to replace a convoluted mess of logic of checking and setting this and that flag to handle state transitions. To help manage the size and complexity of the code, i added utility functions to encapsulate common abstractions, wrote wrapper libraries on top of function calls to external hardware libraries (image processing, motion controller).</p>
+
+                <p>And then i started looking for ways to level up as a developer. I got my chance as my company needed an app for translating CAD files into robot path planning.</p>
+
+                <p>I learnt about the difference between dynamic and static languages. Since my boss wanted to outsource the app, time was running short. I had to prototype something quickly if i wanted to convince him, so i used Racket to write a script to parse and display CAD files. Thankfully, the graphics managed to convince him.</p>
+
+                <p>I learnt about scaling up a script into a program. While i’m not sure that i have a handle on that yet, i gained some experience anyhow in structuring my program, custom data structures, and when to emphasize modularity or not.</p>
+
+                <p>I learnt about functional programming, and how map, reduce, filter made working with data so much easier. I learnt about recursion, had my fun with it and then went back to for loops all over again.</p>
+
+                <p>I learnt about algorithms and graphics. I was trying to optimize robot path planning when i came across the traveling salesman problem, quadtrees when trying to reduce the search time to reduce expensive function calls when implementing a selection query in my UI, graphs and depth-first search when modeling points and connections, and wrote my own algorithm to check if a rectangle (the query box) intersected with an arc. Heady times.</p>
+
+
+                <p>[1] The good/bad thing about .NET was that i was insulated from library/dependencies errors. Almost everything i needed i could find in their gigantic standard library.</p>
+                <p>[2] A funny thing was that they would often ask me a question about git, and not knowing the answer, i would google it for them. By teaching them, i learnt more git than by myself..</p>
+                <p>[3] I learnt the absolute bare minimum of .NET internals / Visual Studio that i could possibly get away with. For pragmatic reasons, since i was working with a terribly outdated version, and i hadn’t reached the point where i had to.</p>
+
+                <h2>2016:</h2>
+                <p>I took a sabbatical at the Recurse Center(RC) to work on my deficiencies as a programmer, to widen my horizons and to see how the software world had passed me by. I did the following during my 3 months stint:<p>
+
+                <ul>
+                    <li>Finished set 1 of the Matasano crypto challenges in C.</li>
+                    <li>Finished a machine learning course by Andrew Ng on Coursera.</li>
+                    <li>Worked through the first chapter of Linear Algebra Done Right and learnt how to write (trivial) mathematical proofs.</li>
+                    <li>Built a 2048 clone in Clojurescript.</li>
+                    <li>Built an AI for the 2048 clone in Clojurescript.</li>
+                    <li>Built a visualization for the 2048 AI solver in D3 and Clojurescript. (i probably spent too much time on 2048)</li>
+                    <li>Paired with a RC-er another visualization for Huffman coding in Javascript because immutable data structures are a pain when using D3</li>
+                    <li>Built an internal web app for RC with Flask, npm and React.</li>
+
+
+            </div>
+        </main>
+    </body>
+</html>
