@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <title>Notes on Databases</title>
+    </head>
+
+    <body>
+        <main>
+            <div id="text">
+                <h1>A summary of things i've learned about databases</h1>
+                <p>
+                    Since it's pretty difficult to structure a coherent introduction to databases in an article, i decided to use a Q&A format to answer questions on databases that i found interesting. Disclaimer: most of what i've learned is only relevant with respect to a RDBMS, and specific ones at that (Postgres). This article is also a continuous work in progress to be updated if and when i find new and interesting question.
+                </p>
+
+                <h2>What happens when a SQL query is run in a RDBMS?</h2>
+                <p>
+                    <ol>
+                        <li>A RDBMS typically use a request-response protocol; the client submits a SQL query to the database server. This is usually done through with an API like JDBC.</li>
+                        <li>Typically, the client will be opening a new connection or making use of an existing one from a connection pool. This depends on what the database supports and how the client is designed.</li>
+                        <li>To serve this request, the RDBMS _process manager_ will perform some kind of admission control to determine if the query can be processed immediately or deferred depending on the RDBMS's available resources. This is because a RDBMS can be serving many concurrent requests at the same time and needs some mechanism to allow graceful degradation.</li>
+                        <li> Once the process manager has allocated some process or thread, the RDBMS _query processor_ will parse the SQL statement into a logical plan. This involves simple checks for valid syntax or that the user is authorized to run the query, as well as more complicated steps to rewrite the query representation query optimization without affecting the query semantics.</li>
+                        <li>Next, the query optimizer uses table statistics and table metadata like indexes to turn the logical plan into an executable physical plan, which consists of low level operators (e.g. index scan operator)</li>
+                        <li>Finally, the query executor runs the physical operators that fetch data from the RDBMS _transactional storage manager_. This includes data access and manipulation, as well as managing resources to fetch or persist data between disk and memory (buffer pool) or ensuring ACID properties (lock tables).</li>
+                        <li>If the query executor is successful, the result tuples will be placed in a buffer for the RDBMS client communication manager to return to the client. Depending on the result size, it may take additional calls from the client to fetch data back incrementally.</li>
+                    </ol>
+
+                    For more details on steps 4 and 5, check out Section 4 in <a href="https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf">Architecture of a Database System</a> by Hellerstein and Stonebraker.
+                </p>
+
+                <h2>Where and how is data stored in a database?</h2>
+                <p>
+                    Both table rows (also called as tuples) and indexes are stored on disk. <br>
+                    The transactional storage manager manages data access, which happens during the query execution stage. <br>
+                    The smallest unit of data in a database is a <i>page</i>, which is 4-16k bytes large depending on the RDBMS's implementation. <br>
+                    Pages are retrieved from disk into an in memory buffer pool during data access, and flushed from the buffer pool to disk during data manipulation. <br>
+                    Pages may be the unit for the I/O interface, but a RDBMS typically operates on a higher level of abstraction - records and files of records. <br>
+                    Tables are stored in a <i>heap file</i>, which is an unordered list of pages. As the table grows, pages are appended to the end of the heap file. <br>
+                    Indexes are a little more complicated, but they are stored in pages and on disk. An index record stores pointers to actual tuple data or to other pages containing the rest of the index. <br><br>
+
+                    For more details on <a href="https://postgrespro.com/blog/pgsql/3994098">indexes</a>. <br>
+                    For more details on <a href="http://rachbelaid.com/introduction-to-postgres-physical-storage/">tables</a>. <br>
+                    Also see <a href="https://www.youtube.com/watch?v=-vZQC7B_KRA">CS 186, Spring 2015, Lecture 5</a> for a high level overview on disk space management. <br>
+                </p>
+
+                <h2>How have databases evolved over the years?</h2>
+
+                <p>
+                    A non exhaustive list of new database technologies and the paradigms they were developed for:
+                    <ol>
+                        <li>Time series databases for optimized storage and retrieval when dealing with a high throughput of data. e.g. Prometheus.</li>
+                        <li>Databases designed for a different type of access model, such as web applications requiring a high level of reactivity. e.g. RethinkDB.</li>
+                        <li>Push vs pull based query execution model. A RDBMS like Postgres uses a pull based model, but analytical engines have been looking at push based models. e.g. Snowflake.</li>
+                        <li>NoSQL databases are another category of distributed databases that allow higher throughput of data storage by making sharding easier. Another reason they are favored when dealing with large amounts of data is more predictable performance as opposed to the variance introduced by a RDBMS's query optimizer. e.g. Cassandra, MongoDB.</li>
+                        <li>A RDBMS is usually designed to run a single server architecture, with various process models depending on the operating system. Distributed dataflow engines like Spark make use of a cluster of machines to process data with a higher throughput on a larger scale. They are also designed for working in a cloud environment where they are not the single point of entry for incoming data e.g. schema inference.</li>
+                    </ol>
+                </p>
+
+                <h2>How is the design of an operating system and a database difference / at odds? (WIP)</h2>
+
+                <p>
+                    From a high level view, an OS is a general purpose environment that allows multiple processes to run, resource management (locks, access control, oom killer), a file system API to allow for persistent storage. A database's design goals and architecture doesn't sound too different from this, except that it's more specialized.
+                    <ol>
+                        <li>Resource management. A RDBMS may want to handle memory and disk space by itself.</li>
+                        <li>Access control. To ensure ACID compliance, a RDBMS usually enforces locking at the row level, whereas an OS leaves that implementation detail to processes to handle.</li>
+                    </ol>
+                </p>
+
+
+            </div>
+        </main>
+    </body>
+</html>
